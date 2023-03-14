@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>NAC</title>
+    // the css
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: 16px "Nasalization ", Sans-Serif;
+            background: black;
+        }
+
+        h2 {
+            color: #FFFFFF;
+            font: 30px Times New Roman, Times New Roman;
+            margin: 0 0 10px 0;
+        }
+
+        #page-wrap {
+            width: 500px;
+            margin: 39px auto;
+            position: relative;
+        }
+
+        p {
+            color: #FFFFFF;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Tooltip text */
+        .tooltip .tooltiptext {
+            top: 0px;
+            left: 0%;
+            visibility: hidden;
+            width: 120px;
+            background-color: red;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 5px 0;
+            border-radius: 86px;
+
+            /* Position the tooltip text - see examples below! */
+            position: absolute;
+            z-index: 1;
+        }
+
+        /* Show the tooltip text when you mouse over the tooltip container */
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        #chat-wrap {
+            border: 1px solid #FFFFFF;
+            margin: 0 0 15px 0;
+        }
+
+        #chat-area {
+            height: 600px;
+            overflow: auto;
+            border: 1px solid #FFFFFF;
+            padding: 20px;
+            background: black;
+        }
+
+        #chat-area span {
+            color: black;
+            background: #FF0000;
+            padding: 4px 8px;
+            -moz-border-radius: 8px;
+            -webkit-border-radius: 8px;
+            margin: 0 5px 0 0;
+            border-radius: 8px;
+        }
+
+        #chat-area p {
+            padding: 8px 0;
+            border-bottom: 1px solid #ccc;
+        }
+
+        #name-area {
+            position: absolute;
+            top: 12px;
+            right: 0;
+            color: black;
+            font: bold 12px "Times New Roman", Sans-Serif;
+            text-align: right;
+        }
+
+        #name-area span {
+            color: #FFFFFF;
+        }
+
+        #send-message-area p {
+            float: center;
+            color: #FFFFFF;
+            padding-top: 27px;
+            font-size: 15px;
+        }
+
+        #sendie {
+            color: white;
+            background-color: black;
+            border: 3px solid #999;
+            width: 475px;
+            padding: 10px;
+            font: 12px "Times New Roman", Times New Roman;
+            float: center;
+        }
+    </style>
+
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="/mh2212/chat.js"></script>
+    <script type="text/javascript">
+
+
+        var name = prompt("Display Name:", "");
+
+        if (!name || name === ' ' || name == 'null') {
+            name = "Anon";
+        }
+
+        $("#name-area").html("You are: <span>" + name + "</span>");
+
+
+        var chat = new Chat();
+
+        window.onbeforeunload = function () {
+            outro = ""
+            switch (Math.floor(Math.random() * 5)) {
+                case 0:
+                    outro = name + " has sadly left"
+                    break;
+                case 1:
+                    outro = name + " has decided they are too cool for this place"
+                    break;
+                case 2:
+                    outro = name + " is anti-social"
+                    break;
+                case 3:
+                    outro = name + " didn't like it here"
+                    break;
+                case 4:
+                    outro = name + " is gone, long gone"
+                    break;
+            }
+            chat.send(outro, "Server")
+        }
+
+
+        $(function () {
+
+            chat.getState();
+
+            $("#sendie").keydown(function (event) {
+
+                var key = event.which;
+
+                if (key >= 33) {
+
+                    var maxLength = $(this).attr("maxlength");
+                    var length = this.value.length;
+
+                    if (length >= maxLength && admin == false) {
+                        event.preventDefault();
+                    }
+                }
+            });
+            $('#sendie').keyup(function (e) {
+
+                if (e.keyCode == 13) {
+
+                    var text = $(this).val();
+                    var maxLength = $(this).attr("maxlength");
+                    var length = text.length;
+
+                    if (text.includes('/cc')) {
+                        clearChat();
+                    }
+
+
+                    chat.send(text, name);
+                    $(this).val("");
+                }
+            });
+
+        });
+        var mes = Math.floor(Math.random() * 5); //5 is max 1 is min
+        var beanz = 'null';
+        switch (mes) {
+            case 0:
+                beanz = 'has joined the gulag'
+                break;
+            case 1:
+                beanz = 'welcome to Jungle'
+                break;
+            case 2:
+                beanz = 'welcome to hell'
+                break;
+            case 3:
+                beanz = 'has made a mistake by coming here'
+                break;
+            case 4:
+                beanz = 'has arrived'
+                break;
+
+        }
+        const announcement = name + ' ' + beanz;
+        chat.send(announcement, "Server");
+
+    </script>
+
+
+</head>
+
+<body onload="setInterval('chat.update()', 2)">
+    <div id="page-wrap">
+        <h2>
+            <center>The NAC</center>
+        </h2>
+        <p id="name-area"></p>
+        <div id="chat-wrap">
+            <div id="chat-area"></div>
+        </div>
+        <form id="send-message-area">
+            <center><textarea id="sendie" maxlength='2000'></textarea></center>
+        </form>
+    </div>
+</body>
