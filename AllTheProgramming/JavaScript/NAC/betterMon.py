@@ -2,8 +2,8 @@ import time
 from twilio.rest import Client
 import pathlib
 
-account_sid = 'AC127f608fa1d159909108f1f27bd94609'
-auth_token = '4482486b8386d9c898e839bc17a1f13b'
+account_sid = ''
+auth_token = ''
 print("Starting")
 
 
