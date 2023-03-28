@@ -10,4 +10,3 @@ with open("prob06-2-in.txt") as file:
         else:
             num = int(stupid[0]) * 2 + 40 + int(stupid[1]) * 2 + 40
             print(f"Square {num}")
-        
