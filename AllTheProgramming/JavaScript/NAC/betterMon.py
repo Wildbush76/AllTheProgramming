@@ -2,8 +2,8 @@ import subprocess
 from twilio.rest import Client
 import pathlib
 
-account_sid = 'AC127f608fa1d159909108f1f27bd94609'
-auth_token = '900c3019f8a5c58e85e61aaf857b3531'
+account_sid = 'yea2'
+auth_token = 'yea'
 print("Starting")
 
 
