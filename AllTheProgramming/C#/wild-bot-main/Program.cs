@@ -51,68 +51,11 @@ namespace Wild_bot
             await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
         }
         
-       
         public async Task HandleCommandAsync(SocketMessage arg)
         {
             var message = arg as SocketUserMessage;
-            var context = new SocketCommandContext(_client, message);
-            if (message.Author.Username == "airstream")
-            {
-
-                var emoji12 = new Emoji("🤡");
-
-                await message.AddReactionAsync(emoji12);
-            }
-            if (message.Content.Contains(":") || message.Content.Contains(";"))
-                {
-                bool found = false;
-                char[] fff = new char[message.Content.Length];
-                int testt = message.Content.Length;
-               // Console.WriteLine(message.Content.Length);
-                using (StringReader sr = new StringReader(message.Content))
-                {
-                    for (int corvidgay = message.Content.Length; corvidgay > 0; corvidgay--)
-                    {
-                        sr.Read(fff, 0, 1);
-                        
-                        StringBuilder sb = new StringBuilder("");
-                            using (StringWriter sw = new StringWriter(sb))
-                            {
-                            sw.Write(fff, 0, 1);
-                            string wonka = sb.ToString();
-                            
-                            if (wonka == ":" || wonka == ";")
-                            {
-                                found = true;
-                            }
-                            if (found == true)
-                            {
-                                if (wonka == "," || wonka == ":" || wonka == "." || wonka == "'" )
-                                { }
-                                else if (wonka == "c" || wonka == "C" || wonka == "(")
-                                {
-                                    var emoji1 = new Emoji("🤡");
-                                    var emoji2 = new Emoji("😢");
-                                    var emoji3 = new Emoji("🐵");
-
-
-                                    await message.AddReactionAsync(emoji1);
-                                    await message.AddReactionAsync(emoji3);
-                                    await message.AddReactionAsync(emoji2);
-                                    await message.Channel.SendMessageAsync( message.Author.Username + " go ahead and cry about it");
-                                    await message.Channel.SendMessageAsync(" https://tenor.com/view/cat-kitty-cope-gif-20110606 "); 
-                                }
-                              
-                                else
-                                {
-                                  return;
-                                }
-                            }
-                            }
-                    }
-                }
-            }
-            if (message.Author.IsBot || message.Author.Username == "Tarraccc") return;
+            var context = new SocketCommandContext(_client, message); 
+            if (message.Author.IsBot ) return;
             int argPos = 0;
             if (message.HasStringPrefix("?", ref argPos))//bot prefix
             {

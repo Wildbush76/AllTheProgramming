@@ -38,9 +38,8 @@ namespace Wild_bot.Moduls
             public double VND { get; set; }
         }
 
-        static Double Import(type)
+        static Double Import()
         {
-            
                 String URLString = "https://v6.exchangerate-api.com/v6/56397de4f1b88727b15953c6/latest/USD";
                 using (var webClient = new System.Net.WebClient())
                 {
@@ -49,11 +48,11 @@ namespace Wild_bot.Moduls
                     switch(type) {
                     case "VES":
                         return Test.conversion_rates.VES;
-                     break
-                     case "VND":
+                        break;
+                    case "VND":
                         return Test.conversion_rates.VND;
-                     break
-                    }
+                        break;
+                }
                 
                 }
           

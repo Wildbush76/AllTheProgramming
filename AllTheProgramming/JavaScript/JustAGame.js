@@ -1,18 +1,16 @@
 var foo;
 var output;
-const My_pain=true;
 function setup() {
 	createCanvas(1200, 500);
-	if(My_pain==true)
-	{
+	if (My_pain == true) {
 		foo = new p5.SpeechRec('en-US');
 		foo.continuous = true;
 		foo.interimResults = true;
 		foo.onResult = showResult;
-		foo.start(); 
+		foo.start();
 	}
 	le_bullet_image = loadImage('bullets.png');
-	
+
 	background(100);
 	for (let abc in level1) {
 		if (values1[abc] == 6) {
@@ -23,24 +21,22 @@ function setup() {
 		}
 	}
 }
-keyPressed = function() {
+keyPressed = function () {
 	keys[keyCode] = true;
 }
-keyReleased = function() {
+keyReleased = function () {
 	keys[keyCode] = false;
 }
-function showResult()
-{
-	output=foo.resultString;
-	output=output.toLowerCase()
-	if(output.includes('jump'))
-	{
-		y-=2;
-		g=-jumpH;
+function showResult() {
+	output = foo.resultString;
+	output = output.toLowerCase()
+	if (output.includes('jump')) {
+		y -= 2;
+		g = -jumpH;
 	}
 	console.log(output)
 }
-var coliS=false;
+var coliS = false;
 var wait = 0;
 var time_go_slow = 0;
 var TSelect = 0;
@@ -147,7 +143,7 @@ function gravity() {
 
 function draw() {
 	if (time_go_slow >= wait || !debug) {
-		time_go_slow=0;
+		time_go_slow = 0;
 		T_dubug = []
 		if (player_shooty_delay < 30) {
 			player_shooty_delay++;
@@ -244,11 +240,10 @@ function draw() {
 		text('level:' + level_dat_u_on, 1050, 165)
 		text('TSelect:' + TSelect, 1050, 180)
 		text('slow time:' + wait + ' :' + time_go_slow, 1050, 195)
-		text('Show Colisions:'+ coliS,1050,210)
-		if(keys[189])
-		{
-			coliS=!coliS;
-			keys[189]=false;
+		text('Show Colisions:' + coliS, 1050, 210)
+		if (keys[189]) {
+			coliS = !coliS;
+			keys[189] = false;
 		}
 		if (keys[39]) {
 			wait++;
@@ -282,340 +277,277 @@ function draw() {
 	}
 }
 
-var xx=0;
-var yy=0;
-var asd=0;
-var dir=1;
-var spawn=[100,100];
+var xx = 0;
+var yy = 0;
+var asd = 0;
+var dir = 1;
+var spawn = [100, 100];
 var override = false;
-var radius=8;
+var radius = 8;
 var angle123;
-var delayyy=[];
-var tCount=0;
-var random1=[];
-function bloopy_thing_ig(line1,line2,line3,line4)
-{
-let slope=(line4-line2)/(line3-line1);
-	let inter=line2-(line1*slope);
-	let hitMan=[];
-	if(slope>20||slope=='-Infinity'||slope<-20)
-	{
-		for(let MA=Math.min(line2,line4);MA<Math.max(line2,line4);MA++)
-		{
-			let meep=(Math.floor(line1/20))+(Math.floor(MA/20)*60);
-			if(!hitMan.includes(meep))
-			{
+var delayyy = [];
+var tCount = 0;
+var random1 = [];
+function bloopy_thing_ig(line1, line2, line3, line4) {
+	let slope = (line4 - line2) / (line3 - line1);
+	let inter = line2 - (line1 * slope);
+	let hitMan = [];
+	if (slope > 20 || slope == '-Infinity' || slope < -20) {
+		for (let MA = Math.min(line2, line4); MA < Math.max(line2, line4); MA++) {
+			let meep = (Math.floor(line1 / 20)) + (Math.floor(MA / 20) * 60);
+			if (!hitMan.includes(meep)) {
 				hitMan.push(meep)
 			}
 		}
 	}
-	for(let Moo=line1;Moo<Math.abs(line1-line3)+line1;Moo++)
-	{
+	for (let Moo = line1; Moo < Math.abs(line1 - line3) + line1; Moo++) {
 		let cords_thingy;
 		let XS;
-		if(line1>line3)
-		{
-			cords_thingy=((line3+(Moo-line1))*slope)+inter;
-			XS=Math.floor((line3+(Moo-line1))/20)
+		if (line1 > line3) {
+			cords_thingy = ((line3 + (Moo - line1)) * slope) + inter;
+			XS = Math.floor((line3 + (Moo - line1)) / 20)
 		}
-		else
-		{
-		cords_thingy=(Moo*slope)+inter;
-			XS=Math.floor(Moo/20)
+		else {
+			cords_thingy = (Moo * slope) + inter;
+			XS = Math.floor(Moo / 20)
 		}
-		let YS=Math.floor(cords_thingy/20)
-		fill(0,255,0)
-		if(!hitMan.includes(XS+(YS*60)))
-		{
-			hitMan.push(XS+(YS*60))
+		let YS = Math.floor(cords_thingy / 20)
+		fill(0, 255, 0)
+		if (!hitMan.includes(XS + (YS * 60))) {
+			hitMan.push(XS + (YS * 60))
 		}
 	}
 	return hitMan;
 }
-function linRec(line1,line2,line3,line4,rec1,rec2,rec3,rec4)
-{
-	let slope=(line4-line2)/(line3-line1);
-	let inter=line2-(line1*slope)
-	let range=[rec2-(rec1*slope),(rec2+rec4)-((rec1+rec3)*slope),rec2-((rec1+rec3)*slope),(rec2+rec4)-(rec1*slope)];
-	if(inter >= range[0] && inter <= range[1] || inter >= range[2] && inter <= range[3])
-	{
-		if(rec1>Math.min(line1,line3)&&rec1<Math.max(line1,line3)||rec1+rec3>Math.min(line1,line3)&&rec1+rec3<Math.max(line1,line3))
-		{
-			if(rec2>Math.min(line2,line4)&&rec2<Math.max(line2,line4)||rec2+rec4>Math.min(line2,line4)&&rec2+rec4<Math.max(line2,line4))
-			{
-				fill(255,0,0);
+function linRec(line1, line2, line3, line4, rec1, rec2, rec3, rec4) {
+	let slope = (line4 - line2) / (line3 - line1);
+	let inter = line2 - (line1 * slope)
+	let range = [rec2 - (rec1 * slope), (rec2 + rec4) - ((rec1 + rec3) * slope), rec2 - ((rec1 + rec3) * slope), (rec2 + rec4) - (rec1 * slope)];
+	if (inter >= range[0] && inter <= range[1] || inter >= range[2] && inter <= range[3]) {
+		if (rec1 > Math.min(line1, line3) && rec1 < Math.max(line1, line3) || rec1 + rec3 > Math.min(line1, line3) && rec1 + rec3 < Math.max(line1, line3)) {
+			if (rec2 > Math.min(line2, line4) && rec2 < Math.max(line2, line4) || rec2 + rec4 > Math.min(line2, line4) && rec2 + rec4 < Math.max(line2, line4)) {
+				fill(255, 0, 0);
 				return true;
 			}
-			else if(Math.min(line2,line4)>rec2&&Math.max(line2,line4)<rec2+rec4)
-			{
-				fill(255,0,0);
+			else if (Math.min(line2, line4) > rec2 && Math.max(line2, line4) < rec2 + rec4) {
+				fill(255, 0, 0);
 				return true;
 			}
-			else
-			{
+			else {
 				return false;
 			}
 		}
-		else if(Math.min(line1,line3)>rec1&&Math.max(line1,line3)<rec1+rec3)
-		{
-			if(rec2>Math.min(line2,line4)&&rec2<Math.max(line2,line4)||rec2+rec4>Math.min(line2,line4)&&rec2+rec4<Math.max(line2,line4))
-			{
-				fill(255,0,0)
+		else if (Math.min(line1, line3) > rec1 && Math.max(line1, line3) < rec1 + rec3) {
+			if (rec2 > Math.min(line2, line4) && rec2 < Math.max(line2, line4) || rec2 + rec4 > Math.min(line2, line4) && rec2 + rec4 < Math.max(line2, line4)) {
+				fill(255, 0, 0)
 				return true;
 			}
-			else 
-			{
+			else {
 				return false;
 			}
 		}
-		else 
-		{
+		else {
 			return false;
 		}
 	}
-	if(line1>rec1&&line1<rec1+rec3&&line2>rec2&&line2<rec2+rec4||line3>rec1&&line3<rec1+rec3&&line4>rec2&&line4<rec2+rec4)
-	{
-		fill(255,0,0)
+	if (line1 > rec1 && line1 < rec1 + rec3 && line2 > rec2 && line2 < rec2 + rec4 || line3 > rec1 && line3 < rec1 + rec3 && line4 > rec2 && line4 < rec2 + rec4) {
+		fill(255, 0, 0)
 		return true;
 	}
 }
-function load(val, index)
-{
-	colli=false;
-	xx=20*(val%60);
-	yy=Math.floor(val/60)*20;
-	switch(de_levels[level_dat_u_on][index])
-	{
+function load(val, index) {
+	colli = false;
+	xx = 20 * (val % 60);
+	yy = Math.floor(val / 60) * 20;
+	switch (de_levels[level_dat_u_on][index]) {
 		case 1://normal
 			fill(100);
 			break;
 		case 2://death
-			fill(245,224,80);
+			fill(245, 224, 80);
 			break;
 		case 3://spawn
 			fill(220);
 			break;
 		case 4://goal
-			fill(100,130,255);
+			fill(100, 130, 255);
 			break;
 		case 5://jump
-			fill(255,65,105);
+			fill(255, 65, 105);
 			break;
 		case 6:
-			fill(0,0,0)
+			fill(0, 0, 0)
 			break;
 		case 7:
-			if(bstate[bcount]==false)
-			{
+			if (bstate[bcount] == false) {
 				image(le_bullet_image, xx, yy);
 			}
 			break;
 	}
-	if(de_levels[level_dat_u_on][index]!=7)
-	{
-		rect(20*(val%60),Math.floor(val/60)*20,20,20);
+	if (de_levels[level_dat_u_on][index] != 7) {
+		rect(20 * (val % 60), Math.floor(val / 60) * 20, 20, 20);
 	}
-	
-	if(de_levels[level_dat_u_on][index]==5)
-	{
-		let jeffX=20*(val%60);
-		let jeffY=Math.floor(val/60)*20;
-		fill(65,105,225);
-		triangle(10+jeffX,jeffY+2,jeffX+2,jeffY+18,jeffX+18,jeffY+18);
+
+	if (de_levels[level_dat_u_on][index] == 5) {
+		let jeffX = 20 * (val % 60);
+		let jeffY = Math.floor(val / 60) * 20;
+		fill(65, 105, 225);
+		triangle(10 + jeffX, jeffY + 2, jeffX + 2, jeffY + 18, jeffX + 18, jeffY + 18);
 	}
-	else if(de_levels[level_dat_u_on][index]==6 && T_hath[tCount]>0)
-	{
-		let jeffX=20*(val%60);
-		let jeffY=Math.floor(val/60)*20;
+	else if (de_levels[level_dat_u_on][index] == 6 && T_hath[tCount] > 0) {
+		let jeffX = 20 * (val % 60);
+		let jeffY = Math.floor(val / 60) * 20;
 		fill(0)
-		rect(jeffX,jeffY,20,20)	
-		fill(200,200,0)	
-			for(let aca=0;aca<5;aca++)
-			{
-				noStroke();
-				if(T_hath[tCount]>=aca)
-				{
-					fill(0,255,0);
-				}
-				else
-				{
-					fill(255,0,0);
-				}
-				rect(jeffX+aca*4,jeffY-10,4,4)
+		rect(jeffX, jeffY, 20, 20)
+		fill(200, 200, 0)
+		for (let aca = 0; aca < 5; aca++) {
+			noStroke();
+			if (T_hath[tCount] >= aca) {
+				fill(0, 255, 0);
 			}
-			stroke(0)
-		
-		 random1 = bloopy_thing_ig(jeffX+10,jeffY+10,x+10,y+10);//random1 is the all blocks between player
-		let kirby=true;//says if found block
-		if(TSelect==tCount&&debug==true)
-		{
-			T_dubug=random1
+			else {
+				fill(255, 0, 0);
+			}
+			rect(jeffX + aca * 4, jeffY - 10, 4, 4)
 		}
-		for(var uwu in random1)
-		{
-			if(de_levels[level_dat_u_on-1].includes(random1[uwu])&&de_levels[level_dat_u_on][de_levels[level_dat_u_on-1].indexOf(random1[uwu])]!=6)
-			{
-				kirby=false;
-				delayyy[tCount]=0;
+		stroke(0)
+
+		random1 = bloopy_thing_ig(jeffX + 10, jeffY + 10, x + 10, y + 10);//random1 is the all blocks between player
+		let kirby = true;//says if found block
+		if (TSelect == tCount && debug == true) {
+			T_dubug = random1
+		}
+		for (var uwu in random1) {
+			if (de_levels[level_dat_u_on - 1].includes(random1[uwu]) && de_levels[level_dat_u_on][de_levels[level_dat_u_on - 1].indexOf(random1[uwu])] != 6) {
+				kirby = false;
+				delayyy[tCount] = 0;
 			}
 		}
-		if(kirby==true)
-		{
-			 angle123 = Math.atan2(((y+10)-(jeffY+10)),((x+10)-(jeffX+10)));
-			if(asd<angle123)
-			{
-				asd+=0.03;
+		if (kirby == true) {
+			angle123 = Math.atan2(((y + 10) - (jeffY + 10)), ((x + 10) - (jeffX + 10)));
+			if (asd < angle123) {
+				asd += 0.03;
 			}
-			else if(asd>angle123)
-			{
-				asd-=0.03;
+			else if (asd > angle123) {
+				asd -= 0.03;
 			}
-			if(asd>angle123-0.05&&asd<angle123+0.05)
-			{
-				asd=angle123;
+			if (asd > angle123 - 0.05 && asd < angle123 + 0.05) {
+				asd = angle123;
 			}
-			if(asd>angle123-0.2&&asd<angle123+0.2)
-			{
-				if(delayyy[tCount]<20)
-				{
+			if (asd > angle123 - 0.2 && asd < angle123 + 0.2) {
+				if (delayyy[tCount] < 20) {
 					delayyy[tCount]++;
 				}
-				else
-				{
-					let XXXX=Math.cos(asd)*radius + jeffX+10;	
-					let YYYY=Math.sin(asd)*radius + jeffY+10;
+				else {
+					let XXXX = Math.cos(asd) * radius + jeffX + 10;
+					let YYYY = Math.sin(asd) * radius + jeffY + 10;
 					strokeWeight(10);
-					shotting(XXXX,YYYY,x+10,y+10,'E');
+					shotting(XXXX, YYYY, x + 10, y + 10, 'E');
 					strokeWeight(1);
-					delayyy[tCount]-=10;
+					delayyy[tCount] -= 10;
 				}
 			}
-			else
-			{
-				delayyy[tCount]=0;
+			else {
+				delayyy[tCount] = 0;
 			}
 		}
-		let XXX=Math.cos(asd)*radius + jeffX+10;	
-		let YYY=Math.sin(asd)*radius + jeffY+10;
-		stroke(0,255,0);	
-		ellipse(XXX,YYY,5,5);
+		let XXX = Math.cos(asd) * radius + jeffX + 10;
+		let YYY = Math.sin(asd) * radius + jeffY + 10;
+		stroke(0, 255, 0);
+		ellipse(XXX, YYY, 5, 5);
 		stroke(0);
 	}
-	if(de_levels[level_dat_u_on][index]==6)
-	{
+	if (de_levels[level_dat_u_on][index] == 6) {
 		tCount++;
 	}
-		for(let bloop=0;bloop<bull.length;bloop+=7)
-		{
-			if(bull[bloop+6]=="E"&&de_levels[level_dat_u_on][index]==6)
-			{
-				continue;
-			}
-			var bonk=false;
-			bonk = linRec(bull[bloop],bull[bloop+1],bull[bloop+2],bull[bloop+3],xx,yy,20,20);
-			if(bonk==true&&bull[bloop+6]=='P'&&de_levels[level_dat_u_on][index]==6&&T_hath[tCount-1]>0)
-			{
-				T_hath[tCount-1]--;//why is it shooting its self????
-			}
-			if(bonk==true)
-			{
-				if(de_levels[level_dat_u_on][index]==7&&bstate[bcount]==false||de_levels[level_dat_u_on][index]!=7)
-				{
-					bull.splice(bloop,7);
-				}
+	for (let bloop = 0; bloop < bull.length; bloop += 7) {
+		if (bull[bloop + 6] == "E" && de_levels[level_dat_u_on][index] == 6) {
+			continue;
+		}
+		var bonk = false;
+		bonk = linRec(bull[bloop], bull[bloop + 1], bull[bloop + 2], bull[bloop + 3], xx, yy, 20, 20);
+		if (bonk == true && bull[bloop + 6] == 'P' && de_levels[level_dat_u_on][index] == 6 && T_hath[tCount - 1] > 0) {
+			T_hath[tCount - 1]--;//why is it shooting its self????
+		}
+		if (bonk == true) {
+			if (de_levels[level_dat_u_on][index] == 7 && bstate[bcount] == false || de_levels[level_dat_u_on][index] != 7) {
+				bull.splice(bloop, 7);
 			}
 		}
-	if(g < 0) {dir = 1;}else{dir = -1;}
-	if((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)){colli=true}
-	while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20) && override==false) {
-		if(de_levels[level_dat_u_on][index]!=7)
-			{
-				g = 0;
-				y += dir/5;
-				grounded=true;	
-			}
-		else 
-		{
+	}
+	if (g < 0) { dir = 1; } else { dir = -1; }
+	if ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)) { colli = true }
+	while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20) && override == false) {
+		if (de_levels[level_dat_u_on][index] != 7) {
+			g = 0;
+			y += dir / 5;
+			grounded = true;
+		}
+		else {
 			break;
 		}
 	}
-	if(colli==true)
-	{			
-		collision(xx,yy,de_levels[level_dat_u_on][index]);
+	if (colli == true) {
+		collision(xx, yy, de_levels[level_dat_u_on][index]);
 	}
-	if(de_levels[level_dat_u_on][index]==3)
-	{
-		spawn[0]=xx;
-		spawn[1]=yy;
+	if (de_levels[level_dat_u_on][index] == 3) {
+		spawn[0] = xx;
+		spawn[1] = yy;
 	}
-	if(de_levels[level_dat_u_on][index]==7)
-	{
+	if (de_levels[level_dat_u_on][index] == 7) {
 		bcount++;
 	}
 }
-function collision(x,y,value)
-{
-	if(coliS)
-	{
-		fill(0,255,0,200)
-		rect(xx,yy,20,20)
+function collision(x, y, value) {
+	if (coliS) {
+		fill(0, 255, 0, 200)
+		rect(xx, yy, 20, 20)
 	}
-	switch(value)
-	{
+	switch (value) {
 		case 2:
-			death(spawn[0],spawn[1]);
+			death(spawn[0], spawn[1]);
 			break;
 		case 4:
-			if(level_dat_u_on+2<de_levels.length)
-			{
-				level_dat_u_on+=2;
-				started=false;
+			if (level_dat_u_on + 2 < de_levels.length) {
+				level_dat_u_on += 2;
+				started = false;
 				death_counter--;
 			}
-			else
-			{
+			else {
 				console.error('404 next level not found');
 				time_active = false;
 			}
 			break;
 		case 5:
-			g=-10;
-			y-=0;
-			grounded=false;
-			override=true;
+			g = -10;
+			y -= 0;
+			grounded = false;
+			override = true;
 			break;
 		case 7:
-			if(bstate[bcount]==false)
-			{
+			if (bstate[bcount] == false) {
 				ammo[1]++
 			}
-			bstate[bcount]=true
+			bstate[bcount] = true
 			break;
 	}
 }
 
-function player()
-{
-	bcount=0;
-	if (keys[68]) 
-	{
-		x+= movement_speed;
-		for (i=0; i<de_levels[level_dat_u_on-1].length; i++)
-		{
-			xx=20*(de_levels[level_dat_u_on-1][i]%60);
-			yy=Math.floor(de_levels[level_dat_u_on-1][i]/60)*20;
-			if((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)&&de_levels[level_dat_u_on][i]!=5)
-			{
-					collision(xx,yy,de_levels[level_dat_u_on][i]);
+function player() {
+	bcount = 0;
+	if (keys[68]) {
+		x += movement_speed;
+		for (i = 0; i < de_levels[level_dat_u_on - 1].length; i++) {
+			xx = 20 * (de_levels[level_dat_u_on - 1][i] % 60);
+			yy = Math.floor(de_levels[level_dat_u_on - 1][i] / 60) * 20;
+			if ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20) && de_levels[level_dat_u_on][i] != 5) {
+				collision(xx, yy, de_levels[level_dat_u_on][i]);
 			}
-			while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)) 
-			{
-				if(de_levels[level_dat_u_on][i]!=7)
-				{
-					x-=0.4;
+			while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)) {
+				if (de_levels[level_dat_u_on][i] != 7) {
+					x -= 0.4;
 				}
-				else 
-				{
+				else {
 					break;
 				}
 			}
@@ -623,68 +555,56 @@ function player()
 	}
 	if (keys[65]) {
 		x -= movement_speed;
-		for (i=0; i<de_levels[level_dat_u_on-1].length; i++) 
-		{
-			xx=20*(de_levels[level_dat_u_on-1][i]%60);
-			yy=Math.floor(de_levels[level_dat_u_on-1][i]/60)*20;
-			if((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)&&de_levels[level_dat_u_on][i]!=5)
-			{
-					collision(xx,yy,de_levels[level_dat_u_on][i]);
+		for (i = 0; i < de_levels[level_dat_u_on - 1].length; i++) {
+			xx = 20 * (de_levels[level_dat_u_on - 1][i] % 60);
+			yy = Math.floor(de_levels[level_dat_u_on - 1][i] / 60) * 20;
+			if ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20) && de_levels[level_dat_u_on][i] != 5) {
+				collision(xx, yy, de_levels[level_dat_u_on][i]);
 			}
-			while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)) 
-			{
-				if(de_levels[level_dat_u_on][i]!=7)
-				{
-					x+=0.4;
+			while ((x > xx - 20 && x < xx + 20 && y > yy - 20 && y < yy + 20)) {
+				if (de_levels[level_dat_u_on][i] != 7) {
+					x += 0.4;
 				}
-				else
-				{
+				else {
 					break;
 				}
 			}
 		}
-		if(de_levels[level_dat_u_on][i]==7)
-		{
+		if (de_levels[level_dat_u_on][i] == 7) {
 			bcount++;
 		}
 	}
-	if(keys[87]&&grounded==true)
-	{
-		y-=2;
-		g=-jumpH;
-		keys[87]=false;
+	if (keys[87] && grounded == true) {
+		y -= 2;
+		g = -jumpH;
+		keys[87] = false;
 	}
-	fill(255,0,0);
-	for(let MMM=0;MMM<5;MMM++)
-	{
+	fill(255, 0, 0);
+	for (let MMM = 0; MMM < 5; MMM++) {
 		noStroke();
-		if(hath>=MMM){fill(0,200,0)}
-		else{fill(255,0,0)}
-		rect(x+MMM*4,y-10,4,4)
+		if (hath >= MMM) { fill(0, 200, 0) }
+		else { fill(255, 0, 0) }
+		rect(x + MMM * 4, y - 10, 4, 4)
 	}
 	stroke(0);
-	if(hath<0)
-	{
-		death(spawn[0],spawn[1])
+	if (hath < 0) {
+		death(spawn[0], spawn[1])
 	}
-	for(let bloop=0;bloop<bull.length;bloop+=7)
-	{
-		let qwer=linRec(bull[bloop],bull[bloop+1],bull[bloop+2],bull[bloop+3],x,y,20,20)
-		if(qwer==true&&bull[bloop+6]=="E")
-		{
-			bull.splice(bloop,7)
+	for (let bloop = 0; bloop < bull.length; bloop += 7) {
+		let qwer = linRec(bull[bloop], bull[bloop + 1], bull[bloop + 2], bull[bloop + 3], x, y, 20, 20)
+		if (qwer == true && bull[bloop + 6] == "E") {
+			bull.splice(bloop, 7)
 			hath--;
 		}
-		
+
 	}
-	fill(255,0,0);
-	rect(x,y,20,20);
+	fill(255, 0, 0);
+	rect(x, y, 20, 20);
 }
-function death(spawnX,spawnY)
-{
-	g=0;
-	hath=5;
-	x=spawnX;
-	y=spawnY-30;
+function death(spawnX, spawnY) {
+	g = 0;
+	hath = 5;
+	x = spawnX;
+	y = spawnY - 30;
 	death_counter++;
 }

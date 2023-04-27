@@ -2,15 +2,12 @@ from PIL import ImageOps, Image
 import numpy as np
 
 
-
-
-
-#start doing the shiiiiiiiiiiiiiiiiiiiit
+# start doing it
 print("starting")
 theImage = ImageOps.grayscale(Image.open("cat.png"))
 
-#convert to only black and white
-pixels = np.array(theImage.getdata(),dtype=np.uint8)
+# convert to only black and white
+pixels = np.array(theImage.getdata(), dtype=np.uint8)
 newP = []
 size = theImage.size
 for y in range(size[1]):
@@ -20,8 +17,8 @@ for y in range(size[1]):
         newP.append(round(pixels[location]/255)*255)
         pixels[location] = round(pixels[location]/255)*255
         error = oldPixel - int(pixels[location])
-        
-        if x < size[0] -1:
+
+        if x < size[0] - 1:
             pixels[location + 1] += error * (7/16)
         elif x > 0:
             pixels[location - 1] += error * (3/16)
@@ -30,10 +27,8 @@ for y in range(size[1]):
         elif y > 0:
             pixels[location - size[0]] += error * (1/6)
 
-newI = Image.new(theImage.mode,size)
+newI = Image.new(theImage.mode, size)
 newI.putdata(newP)
 
 newI.save("new.png")
 print("ive done it")
-#holy fuck this might be wayyyyyyyyyyy harder for the computer to solve than i thought
-#computer science is dumb and flawed

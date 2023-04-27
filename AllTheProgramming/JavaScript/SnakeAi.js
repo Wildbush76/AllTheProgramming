@@ -317,14 +317,14 @@ function astar(gridX, gridY, start, end, body, long = false, deathIsSoon = false
 			}
 		}
 	}
-	if(!long && deathIsSoon == false) {
+	if (!long && deathIsSoon == false) {
 		//console.log('trying again')
-		let attempt2 = astar(sizer[0] / 20, sizer[1] / 20, [player.x, player.y], appa.pos, player.body,true)
+		let attempt2 = astar(sizer[0] / 20, sizer[1] / 20, [player.x, player.y], appa.pos, player.body, true)
 		return attempt2;
 	}
-	else if(long == true && deathIsSoon == false) {
+	else if (long == true && deathIsSoon == false) {
 		//console.log('trying once more')
-		let attempt2 = astar(sizer[0] / 20, sizer[1] / 20, [player.x, player.y], appa.pos, player.body,false,true)
+		let attempt2 = astar(sizer[0] / 20, sizer[1] / 20, [player.x, player.y], appa.pos, player.body, false, true)
 		return attempt2;
 	}
 	else {
@@ -332,17 +332,17 @@ function astar(gridX, gridY, start, end, body, long = false, deathIsSoon = false
 		return null;
 	}
 }
-function floodFill(walls,point,size) {
+function floodFill(walls, point, size) {
 	let q = [];
 	let done = [];
 	class space {
-		constructor(x,y) {
+		constructor(x, y) {
 			this.x = x;
 			this.y = y;
 			this.wall = false;
 			this.neighbors = [];
-			for(let k in walls) {
-				if(this.x == walls[k][0] && this.y == walls[k][1]) {
+			for (let k in walls) {
+				if (this.x == walls[k][0] && this.y == walls[k][1]) {
 					this.wall = true;
 				}
 			}
@@ -366,29 +366,29 @@ function floodFill(walls,point,size) {
 	}
 	let gridd = [];
 	let col = [];
-	for(let i = 0; i < size[0]; i++) {
+	for (let i = 0; i < size[0]; i++) {
 		col = [];
-		for(let j = 0; j < size[1]; j++) {
-			col.push(new space(i,j))
+		for (let j = 0; j < size[1]; j++) {
+			col.push(new space(i, j))
 		}
 		gridd.push(col)
 	}
-	for(let k in gridd) {
-		for(let kk in gridd[k]) {
+	for (let k in gridd) {
+		for (let kk in gridd[k]) {
 			gridd[k][kk].find();
 		}
 	}
 	q.push(gridd[point[0]][point[1]]);
-	while(q.length > 0) {
+	while (q.length > 0) {
 		let currentt = q[0];
 		q.shift();
 		done.push(currentt);
 		//console.log(current.neighbors.length)
-		for(let k = 0 ; k < currentt.neighbors.length; k++) {
-			if(currentt.neighbors[k].wall == false && !done.includes(currentt.neighbors[k]) && !q.includes(currentt.neighbors[k])) {
+		for (let k = 0; k < currentt.neighbors.length; k++) {
+			if (currentt.neighbors[k].wall == false && !done.includes(currentt.neighbors[k]) && !q.includes(currentt.neighbors[k])) {
 				q.push(currentt.neighbors[k]);
 			}
 		}
 	}
 	return done.length;
-}s
+}

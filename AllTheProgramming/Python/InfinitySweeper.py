@@ -4,9 +4,9 @@ import random
 
 pygame.init()
 
-#to do
-#get cooler flood fill (doesnt stop at screen edges)
-#get death animation (maybe)
+# to do
+# get cooler flood fill (doesnt stop at screen edges)
+# get death animation (maybe)
 
 # constants
 WIDTH = 600
@@ -15,42 +15,45 @@ GRIDSIZE = 20
 DENSITY = 8  # higher means lower density # do not set it too low or the code will fucking die
 FRAMERATE = 20
 
-HIDDENCOLOR =  (137, 207, 240)
+HIDDENCOLOR = (137, 207, 240)
 SHOWNCOLOR = (255, 127, 80)
 NUMBACKGROUNDCOLOR = (204, 91, 68)
-FLAGCOLOR = (255,0,0)
+FLAGCOLOR = (255, 0, 0)
 
 map = []  # 2d list- -9 is hidden no mine negatives are hidden, 0 is nothing, postive are showen, and 9 is a mine
 
-def deathIsCool(screen,map,pos):
+
+def deathIsCool(screen, map, pos):
     createNewMap(map)
     pos = [2*GRIDSIZE, 2*GRIDSIZE]
 
-def floodFill(map,x,y):#sigh, flood fill for discovering an area
+
+def floodFill(map, x, y):  # sigh, flood fill for discovering an area
     if x > 2 and getTrueValue(map[y][x-1]) < 0:
         if map[y][x-1] == -9:
             map[y][x-1] = 0
-            floodFill(map,x-1,y)
+            floodFill(map, x-1, y)
         else:
             map[y][x-1] = abs(map[y][x-1])
     if x < len(map[0])-3 and getTrueValue(map[y][x+1]) < 0:
         if map[y][x+1] == -9:
             map[y][x+1] = 0
-            floodFill(map,x+1,y)
+            floodFill(map, x+1, y)
         else:
             map[y][x+1] = abs(map[y][x+1])
     if y > 2 and getTrueValue(map[y-1][x]) < 0:
         if map[y-1][x] == -9:
             map[y-1][x] = 0
-            floodFill(map,x,y-1)
+            floodFill(map, x, y-1)
         else:
             map[y-1][x] = abs(map[y-1][x])
     if y < len(map)-3 and getTrueValue(map[y+1][x]) < 0:
         if map[y+1][x] == -9:
             map[y+1][x] = 0
-            floodFill(map,x,y+1)
+            floodFill(map, x, y+1)
         else:
             map[y+1][x] = abs(map[y+1][x])
+
 
 def getNeighbors(x, y, map):
     total = 0
@@ -74,11 +77,13 @@ def getNeighbors(x, y, map):
         total += 1
     return total
 
+
 def getTrueValue(val):
     if type(val) == str:
         return int(val[1:])
     else:
         return val
+
 
 def asignNumbers(map, index, row):
     if row:
@@ -94,6 +99,7 @@ def asignNumbers(map, index, row):
                 if n != 0:
                     map[ind][index] = -n
 
+
 def createRow(map, top):
     row = []
     for i in range(len(map[0])):
@@ -107,6 +113,7 @@ def createRow(map, top):
     else:
         map.append(row)
         asignNumbers(map, -2, True)
+
 
 def createCol(map, top):
     if top:
@@ -123,6 +130,8 @@ def createCol(map, top):
             else:
                 map[i].append(-9)
         asignNumbers(map, -2, False)
+
+
 def createNewMap(map):
     for y in range(HEIGHT//GRIDSIZE + 4):
         row = []
@@ -133,12 +142,13 @@ def createNewMap(map):
                 row.append(-9)
         map.append(row)
 
+
 # create the inital map
 createNewMap(map)
 
-#asign all the values for the dumb shit ig
-for y in range(2,HEIGHT//GRIDSIZE + 2):
-    asignNumbers(map,y,True)
+# asign all the values for the dumb stuff ig
+for y in range(2, HEIGHT//GRIDSIZE + 2):
+    asignNumbers(map, y, True)
 currentPos = [2*GRIDSIZE, 2*GRIDSIZE]
 
 
@@ -178,31 +188,34 @@ while running:
                 leftMouseButton = False
                 mousePressedPosition = mpos
                 if placing:
-                    placingX = (mpos[0] + currentPos[0])//GRIDSIZE 
-                    placingY = (mpos[1] + currentPos[1])//GRIDSIZE 
+                    placingX = (mpos[0] + currentPos[0])//GRIDSIZE
+                    placingY = (mpos[1] + currentPos[1])//GRIDSIZE
                     if map[placingY][placingX] == 9:
-                        print("YOUR STUPID")
+                        print("YOUR BAD")
                         running = False
                     else:
                         if map[placingY][placingX] == -9:
                             map[placingY][placingX] = 0
                         else:
-                            map[placingY][placingX] = abs(getTrueValue(map[placingY][placingX]))
-                        floodFill(map,placingX,placingY)
+                            map[placingY][placingX] = abs(
+                                getTrueValue(map[placingY][placingX]))
+                        floodFill(map, placingX, placingY)
             elif event.button == 3:
                 rightMouseButton = False
                 mousePressedPosition = mpos
                 if placing:
-                    placingX = (mpos[0] + currentPos[0])//GRIDSIZE 
+                    placingX = (mpos[0] + currentPos[0])//GRIDSIZE
                     placingY = (mpos[1] + currentPos[1])//GRIDSIZE
                     if type(map[placingY][placingX]) == str:
-                        map[placingY][placingX] = int(map[placingY][placingX][1:])
+                        map[placingY][placingX] = int(
+                            map[placingY][placingX][1:])
                     else:
-                        map[placingY][placingX] = "f" + str(map[placingY][placingX])
-                    
+                        map[placingY][placingX] = "f" + \
+                            str(map[placingY][placingX])
+
         screen.fill((255, 255, 255))
 
-        # logic shit ig
+        # logic stuff ig
         if leftMouseButton and mpos != mousePressedPosition:
             placing = False
 
@@ -236,18 +249,23 @@ while running:
             for x, xVal in enumerate(yVal[xOffset:xOffset + WIDTH//GRIDSIZE + GRIDSIZE]):
                 trueX = getTrueValue(xVal)
                 if trueX < 0 or trueX == 9:
-                    pygame.draw.rect(screen,HIDDENCOLOR, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
+                    pygame.draw.rect(
+                        screen, HIDDENCOLOR, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
                 elif trueX == 0:
-                    pygame.draw.rect(screen, SHOWNCOLOR, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
+                    pygame.draw.rect(
+                        screen, SHOWNCOLOR, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
                 else:
-                    pygame.draw.rect(screen, NUMBACKGROUNDCOLOR, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
-                    text = font.render(str(xVal), True, (0,0,0), NUMBACKGROUNDCOLOR)
-                    screen.blit(text,(x*GRIDSIZE - xThing,y*GRIDSIZE - yThing))
+                    pygame.draw.rect(screen, NUMBACKGROUNDCOLOR, (x*GRIDSIZE -
+                                     xThing, y*GRIDSIZE - yThing, GRIDSIZE, GRIDSIZE))
+                    text = font.render(
+                        str(xVal), True, (0, 0, 0), NUMBACKGROUNDCOLOR)
+                    screen.blit(
+                        text, (x*GRIDSIZE - xThing, y*GRIDSIZE - yThing))
                 if trueX != xVal:
-                    pygame.draw.rect(screen,FLAGCOLOR,(x*GRIDSIZE - xThing + GRIDSIZE//4, y*GRIDSIZE - yThing + GRIDSIZE//4, GRIDSIZE//2,GRIDSIZE//2))
-                
+                    pygame.draw.rect(screen, FLAGCOLOR, (x*GRIDSIZE - xThing + GRIDSIZE //
+                                     4, y*GRIDSIZE - yThing + GRIDSIZE//4, GRIDSIZE//2, GRIDSIZE//2))
 
-         # create the frackin grid
+         # create the grid
         for x in range(HEIGHT//GRIDSIZE + 1):
             pygame.draw.line(screen, (0, 0, 0), (0, x*GRIDSIZE -
                              yThing), (WIDTH, x*GRIDSIZE - yThing))

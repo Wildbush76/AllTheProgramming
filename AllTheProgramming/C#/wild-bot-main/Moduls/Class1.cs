@@ -35,21 +35,11 @@ namespace Wild_bot.Moduls
         [Command("speak")]
         public async Task say([Remainder]string a=null)
         {
-            string[] no= {"asd" };
-            for (int asd = 0; asd < no.Length; asd++)
-            {
-                if (a == no[asd])
-                {
-                   await ReplyAsync(" error 806 , that aint nice");
-                    a = "error 806";
-                    return;
-                    
-                }
-            }
+          
             ss.Volume = 100;
             if (a != null)
             {
-              //  ss.Speak(a);
+               ss.Speak(a);
                 await ReplyAsync("i has spoken");
             }
             else {
@@ -60,7 +50,7 @@ namespace Wild_bot.Moduls
         [Command("help")]
         public async Task Help()
         {
-           await ReplyAsync("My commands are ?monkey, ?gay, ?baby, ?gnir lleb, ?ban, ?Wildbush, ?unban, ?iq, ?cthulhu, ?Shutdown, ?y or n, ?russian roulette and ?help");
+           await ReplyAsync("My commands are ?monkey, ?baby, ?gnir lleb, ?ban, ?Wildbush, ?unban, ?iq, ?Shutdown, ?y or n, ?russian roulette and ?help");
 
         }
 
@@ -118,48 +108,7 @@ namespace Wild_bot.Moduls
            
 
         }
-        [Command("baby")]
-        public async Task baby(int baby = 0)
-        {
-            Console.WriteLine("baby:" + Context.User.Username + ":time:" + Context.Message.Timestamp + ":amount:" + baby);
-            if (baby == 0)
-            {
-                await ReplyAsync("please specify the amount of babys");
-                return;
-            }
-
-            double c = Math.Pow(299792458, 2);
-            double b = baby * 8.9;
-            double e = b * c;
-            double j = 4184000000000000;
-            double m = e / j;
-            string at = "Mt";
-            double x = Math.Round(m);
-            at = x + at;
-            if (baby == 1)
-            {
-                await ReplyAsync($"if you had {baby} baby made of anti matter it would have a yeild of " + at );
-            }
-            else
-            {
-                await ReplyAsync($"if you had {baby} babies made of anti matter it would have a yeild of " + at);
-            }
-            await ReplyAsync("https://tenor.com/view/explosion-explode-clouds-of-smoke-gif-17216934");
-        }
-
-        [Command("gnir lleb")]
-        public async Task gnir()
-        {
-            var em = new EmbedBuilder()
-              .WithTitle(":bell: GNIR LLEB :bell:")
-              .WithImageUrl("https://cdn.discordapp.com/attachments/756261140329136138/778090642847825951/image0.png")
-              .WithDescription("GNIR LLEB");
-            Embed embed = em.Build();
-            await ReplyAsync(embed: embed);
-            Console.WriteLine("gnir lleb:" + Context.User.Username + ":time:" + Context.Message.Timestamp);
-
-
-        }
+        
         [Command("russian roulette")]
         public async Task rr()
         {
@@ -215,10 +164,9 @@ namespace Wild_bot.Moduls
         public async Task wild()
         {
            
-           
             var em = new EmbedBuilder()
                 .WithTitle("WildBush")
-                .WithDescription($":white_check_mark: Wildbush is a god, we all wish to be more like him. He has done no wrong, He also possses power comparable to gods. - Wildbush \n (those who oppose him shall perish in hell)");
+                .WithDescription($":white_check_mark: Wildbush is a god, we all wish to be more like him. He has done no wrong, He also possses power comparable to gods. - Wildbush \n (those who oppose him shall perish)");
 
             Console.WriteLine("Wildbush:" + Context.User.Username + ":time:" + Context.Message.Timestamp);
             Embed embed = em.Build();
@@ -258,8 +206,6 @@ namespace Wild_bot.Moduls
             {
                 await ReplyAsync("Your IQ is " + b); 
             }
-           
-           
             else
             {
                 await ReplyAsync("seems like " + other + " has a IQ of " + b);
@@ -267,31 +213,7 @@ namespace Wild_bot.Moduls
 
         }
 
-        [Command("cthulhu")]
-        public async Task cthuthu()
-        {
-            Console.WriteLine("cthulhu:" + Context.User.Username + ":" + Context.Message.Timestamp);
-
-            var em = new EmbedBuilder()
-              .WithTitle("**CTHULHU**")
-              .WithColor(Discord.Color.Green)
-              .WithDescription("**Our lord and savior Cthulhu demads some human sacrifies, please give up your pathetic lives for our lord**");
-            
-
-
-            Embed embed = em.Build();
-            await ReplyAsync(embed: embed);
-
-        }
-        [Command("karma")]
-        public async Task bingo([Remainder]string a = null)
-        {
-            Console.WriteLine("BINGO:" + Context.User.Username + ":" + a);
-           await Context.Message.DeleteAsync();
-            Thread.Sleep(1000);
-            await ReplyAsync(a);
-
-        }
+       
         [Command("shutdown")]
 public async Task down(string pass = null)
         {
@@ -332,7 +254,7 @@ public async Task down(string pass = null)
 
                     break;
                 case 2:
-                    mes = "Hell yes";
+                    mes = "yes";
                     break;
                 case 3:
                     mes = "yep";
