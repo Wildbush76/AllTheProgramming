@@ -12,7 +12,7 @@ pygame.init()
 WIDTH = 600
 HEIGHT = 600
 GRIDSIZE = 20
-DENSITY = 8  # higher means lower density # do not set it too low or the code will fucking die
+DENSITY = 8  # higher means lower density # do not set it too low or the code will
 FRAMERATE = 20
 
 HIDDENCOLOR = (137, 207, 240)
